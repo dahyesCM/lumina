@@ -1,0 +1,11 @@
+"use client"
+
+import { useState } from "react"
+import { Check, Loader2, SmilePlus } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Textarea } from "@/components/ui/textarea"
+
+const responses = [{ icon: "😊", label: "Receptivo" }, { icon: "😢", label: "Emocionado" }, { icon: "😐", label: "Indiferente" }, { icon: "😟", label: "Agitado" }]
+export function ResponseRegistry() { const [selected, setSelected] = useState("Receptivo"); const [saving, setSaving] = useState(false); const [saved, setSaved] = useState(false); const save = () => { setSaving(true); setTimeout(() => { setSaving(false); setSaved(true) }, 700) }; return <Card className="border-0 shadow-sm ring-1 ring-border/70"><CardHeader><div className="flex items-center gap-3"><div className="rounded-xl bg-accent/35 p-3 text-primary"><SmilePlus /></div><div><CardTitle className="text-xl">¿Cómo reaccionó tu familiar?</CardTitle><CardDescription>Registrar ayuda a elegir mejores actividades.</CardDescription></div></div></CardHeader><CardContent className="flex flex-col gap-5"><div className="grid grid-cols-2 gap-3">{responses.map((response) => <button key={response.label} onClick={() => setSelected(response.label)} className={`rounded-xl border p-3 text-left transition ${selected === response.label ? "border-primary bg-primary/10 ring-2 ring-primary/20" : "border-border hover:bg-muted/40"}`} aria-pressed={selected === response.label}><span className="text-2xl">{response.icon}</span><span className="mt-1 block text-sm font-semibold">{response.label}</span></button>)}</div><div className="flex flex-col gap-2"><label htmlFor="notes" className="text-sm font-semibold">¿Algo más que quieras anotar? <span className="font-normal text-muted-foreground">(opcional)</span></label><Textarea id="notes" placeholder="Por ejemplo: sonrió cuando escuchó la canción..." className="min-h-20 resize-none bg-muted/20" /></div><Button onClick={save} disabled={saving || saved} className="w-full bg-primary">{saving ? <><Loader2 className="animate-spin" data-icon="inline-start" /> Guardando respuesta...</> : saved ? <><Check data-icon="inline-start" /> Registro guardado</> : "Guardar registro"}</Button></CardContent></Card> }
+
